@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
+      html {
+        font-family: 'Balsamiq Sans';
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Recipe Finder</h1>
+    <p>Input ingredients you have and find a recipe for you!</p>
+
+    <image src='food.jpg' width='50%'>
+
+    <div id="search-field">
+      <label for="ingredients">Type in your ingredients:</label>
+      <input type="text" id="ingredients" name="ingredients" oninput="searchRecipes()">
+    </div>
+
+    <div id="search-results">
+      <!-- Our JavaScript will create <p> elements here with recipe names.-->
+    </div>
+
+    <script>
+      let RECIPES = [
+        {'name': 'Chocolate Cake', 'time': '30 min', 'ingredients': ['chocolate', 'flour', 'eggs', 'milk']},
+        {'name': 'Egg Salad', 'time': '1 hour', 'ingredients': ['mayonnaise', 'eggs', 'potatoes']},
+        {'name': 'Pancakes', 'time': '15 min', 'ingredients': ['eggs', 'flour', 'milk']}
+      ]
+      
+      
+      function searchRecipes() {
+        let ingredients = getSearchedIngredients();
+        let recipes = findRecipes(ingredients);
+
+        showRecipes(recipes);
+      }
+      
+      function getSearchedIngredients() {
+        let searchText = document.getElementById("ingredients").value;
+        let ingredients = searchText.split(' ');
+
+        return ingredients
+      }
+
+      function findRecipes(ingredients) {
+        // JavaScript: filter, map, every, some, includes
+        return RECIPES.filter(
+          x => ingredients.every(
+            y => x.ingredients.includes(y)));
+      }
+      
+      function showRecipes(recipes) {
+        let resultsDiv = document.getElementById("search-results");
+        resultsDiv.innerHTML = '';
+        
+        let recipeNames = recipes.map(x => x['name']);
+        for (recipe of recipeNames) {
+          let pElement = document.createElement('p');
+          let textElement = document.createTextNode(recipe);
+          
+          pElement.appendChild(textElement);
+          resultsDiv.appendChild(pElement);
+        }
+      }
+    </script>
+  </body>
+</html>
